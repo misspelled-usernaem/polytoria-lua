@@ -6,9 +6,11 @@
   "publisher": "Pawz",
   "author": "Pawz",
 
-  "version": "0.0.1",
+  "icon": "images/Icon.png",
+
+  "version": "1.0.0",
   "engines": {
-    "vscode": "^1.107.0"
+    "vscode": "^1.108.0"
   },
   "categories": [
     "Programming Languages"
@@ -38,5 +40,6 @@
   },
   "extensionDependencies": [
     "sumneko.lua"
-  ]
+  ],
+  "repository": "https://github.com/misspelled-usernaem/polytoria-lua"
 }

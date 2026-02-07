@@ -1,3 +1,6 @@
+---@meta Polytoria
+---@alias classList "Game"|"Environment"|"Lighting"|"Camera"|"Player"|"ScriptService"|"Hidden"|"PlayerDefaults"|"Players"|"Backpack"|"Part"|"MeshPart"|"Seat"|"Text3D"|"NPC"|"Model"|"Tool"|"Truss"|"Climbable"|"Folder"|"Decal"|"GradientSky"|"ImageSky"|"Particles"|"PointLight"|"SpotLight"|"SunLight"|"Sound"|"BodyPosition"|"ScriptInstance"|"LocalScript"|"ModuleScript"|"BaseScript"|"NetworkEvent"|"Signal"|"BoolValue"|"ColorValue"|"InstanceValue"|"IntValue"|"NumberValue"|"StringValue"|"Vector3Value"|"ValueBase"|"Instance"|"DynamicInstance"|"GUI"|"PlayerGUI"|"UIButton"|"UIField"|"UIHVLayout"|"UIHorizontalLayout"|"UIImage"|"UILabel"|"UITextInput"|"UIVerticalLayout"|"UIView"
+
 -------------------------- Enums --------------------------
 
 ---@enum AmbientSource
@@ -15,7 +18,7 @@ local CameraMode = {
     ---Camera is controlled by the player `(default)`.
     FollowPlayer = 1,
     ---Camera is able to be freely moved by the player.
-    FreeCam = 2,
+    Free = 2,
 }
 ---@enum CollisionType
 local CollisionType = {
@@ -225,69 +228,74 @@ local TweenType = {
 }
 ---@enum VerticalAlignment
 local VerticalAlignment = {
-    ---Aligned to the top
+    ---Aligned to the top.
     Top = 0,
-    ---Aligned to the middle
+    ---Aligned to the middle.
     Middle = 1,
-    ---Aligned to the bottom
+    ---Aligned to the bottom.
     Bottom = 2,
 }
-
+---@enum TextAnchor
+local TextAnchor = {
+    ---Text is anchored in upper left corner.
+    UpperLeft = 0,
+    ---Text is anchored in upper side, centered horizontally.
+    UpperCenter = 1,
+    ---Text is anchored in upper right corner.
+    UpperRight = 2,
+    ---Text is anchored in left side, centered vertically.
+    MiddleLeft = 3,
+    ---Text is centered both horizontally and vertically.
+    MiddleCenter = 4,
+    ---Text is anchored in right side, centered vertically.
+    MiddleRight = 5,
+    ---Text is anchored in lower left corner.
+    LowerLeft = 6,
+    ---Text is anchored in lower side, centered horizontally.
+    LowerCenter = 7,
+    ---Text is anchored in lower right corner.
+    LowerRight = 8,
+}
 
 
 -------------------------- Color --------------------------
 
+---@class _Color
+local _Color = {}
 ---@class Color
 ---@field r number Red color component.
 ---@field g number Green color component.
 ---@field b number Blue color component.
 ---@field a number Alpha (opacity) component.
-local Color = {}
 
----Creates a new black color.
+---Creates a new color.
+---@overload fun(): Color
+---@overload fun(n: number): Color
+---@overload fun(r: number, g: number, b: number): Color
+---@overload fun(r: number, g: number, b: number, a: number): Color
 ---@return Color
-function Color.New() end
-
----Creates a new Color with R, G, B set to n.
----@param n number
----@return Color
-function Color.New(n) end
-
----Creates a new Color with R, G, B set and alpha = 1.
----@param r number
----@param g number
----@param b number
----@return Color
-function Color.New(r, g, b) end
-
----Creates a new Color with R, G, B, and A set.
----@param r number
----@param g number
----@param b number
----@param a number
----@return Color
-function Color.New(r, g, b, a) end
+function _Color.New(r, g, b, a) end
 
 ---Creates a new Color from a hex string.
 ---@param HEX string
 ---@return Color
-function Color.FromHex(HEX) end
+function _Color.FromHex(HEX) end
 
 ---Returns a random color with alpha = 1.
 ---@return Color
-function Color.Random() end
+function _Color.Random() end
 
 ---Linearly interpolates between two colors.
 ---@param a Color
 ---@param b Color
 ---@param t number
 ---@return Color
-function Color.Lerp(a, b, t) end
-
-
+function _Color.Lerp(a, b, t) end
 
 -------------------------- ColorRange --------------------------
 
+---@class _ColorRange
+local _ColorRange = {}
 ---@class ColorRange
 ---@field min Color The minimum value.
 ---@field max Color The maximum value.
@@ -297,18 +305,20 @@ local ColorRange = {}
 ---@param min Color
 ---@param max Color
 ---@return ColorRange
-function ColorRange.New(min, max) end
+function _ColorRange.New(min, max) end
 
 
 
 -------------------------- NetMessage --------------------------
 
+---@class _NetMessage
+local _NetMessage = {}
 ---@class NetMessage
 local NetMessage = {}
 
 ---Creates a new NetMessage instance.
 ---@return NetMessage
-function NetMessage.New() end
+function _NetMessage.New() end
 
 ---Sets a key as a string. Adding a string longer than 65,535 characters will cause the message to be silently dropped during transmission, and the NetworkEvent will not be fired on the other side.
 ---@param key string
@@ -394,6 +404,8 @@ function NetMessage:GetInstance(key) end
 
 -------------------------- NumberRange --------------------------
 
+---@class _NumberRange
+local _NumberRange = {}
 ---@class NumberRange
 ---@field min number The minimum value.
 ---@field max number The maximum value.
@@ -403,7 +415,7 @@ local NumberRange = {}
 ---@param min number
 ---@param max number
 ---@return NumberRange
-function NumberRange.New(min, max) end
+function _NumberRange.New(min, max) end
 
 ---Linearly interpolates numbers min and max by t.
 ---@param t number
@@ -419,12 +431,13 @@ function NumberRange:Lerp(t) end
 ---@field Position Vector3 The position the ray made contact at.
 ---@field Distance number The distance between the hit and origin.
 ---@field Normal Vector3 The normal of the surface the ray hit.
-local RayResult = {}
 
 
 
 -------------------------- Vector2 --------------------------
 
+---@class _Vector2
+local _Vector2 ={}
 ---@class Vector2
 ---@field x number The X component of the vector.
 ---@field y number The Y component of the vector.
@@ -432,31 +445,25 @@ local RayResult = {}
 ---@field sqrMagnitude number The squared length of this vector.
 ---@field normalized number Returns this vector with a magnitude of 1.
 
----Creates a new Vector.
+---Creates a new Vector2.
+---@overload fun(): Vector2
+---@overload fun(n: number): Vector2
+---@overload fun(x: number, y: number): Vector2
 ---@return Vector2
-function Vector2.New() end
-
----Creates a new Vector2 with an X and Y value of n.
----@param n number
----@return Vector2
-function Vector2.New(n) end
-
----Creates a new Vector2 with the specified values.
----@param x number
----@param y number
----@return Vector2
-function Vector2.New(x, y) end
+function _Vector2.New(x, y) end
 
 ---Linearly interpolates between two points.
 ---@param a Vector2 The starting point.
 ---@param b Vector2 The ending point.
 ---@param t number  Interpolation factor between 0 and 1, where 0 returns a and 1 returns b.
-function Vector2.Lerp(a, b, t) end
+function _Vector2.Lerp(a, b, t) end
 
 
 
 -------------------------- Vector3 --------------------------
 
+---@class _Vector3
+local _Vector3 = {}
 ---@class Vector3
 ---@field x number The X component of the vector.
 ---@field y number The Y component of the vector.
@@ -467,104 +474,104 @@ function Vector2.Lerp(a, b, t) end
 
 ---Creates a new Vector.
 ---@return Vector3
-function Vector3.New() end
+function _Vector3.New() end
 
 ---Creates a new Vector3 with an X, Y and Z value of n.
 ---@param n number
 ---@return Vector3
-function Vector3.New(n) end
+function _Vector3.New(n) end
 
 ---Creates a new Vector3 with X and Y set to the specified values and a Z of 0.
 ---@param x number
 ---@param y number
 ---@return Vector3
-function Vector3.New(x, y) end
+function _Vector3.New(x, y) end
 
 ---Creates a new Vector3 with the specified values.
 ---@param x number
 ---@param y number
 ---@param z number
 ---@return Vector3
-function Vector3.New(x, y, z) end
+function _Vector3.New(x, y, z) end
 
 ---Returns the angle in degrees between from and to.
 ---@param from Vector3
 ---@param to Vector3
 ---@return number angle The angle in degrees between the vectors.
-function Vector3.Angle(from, to) end
+function _Vector3.Angle(from, to) end
 
 ---Returns a copy of this vector with its magnitude clamped to maxLength.
 ---@param vector Vector3 The vector to clamp.
 ---@param maxLength number The maximum allowed magnitude.
 ---@return Vector3 Vector3 The clamped vector. 
-function Vector3.ClampMagnitude(vector, maxLength) end
+function _Vector3.ClampMagnitude(vector, maxLength) end
 
 ---Cross product of two vectors.
 ---@param a Vector3
 ---@param b Vector3
 ---@return Vector3 Vector3 The vector perpendicular to both a and b.
-function Vector3.Cross(a, b) end
+function _Vector3.Cross(a, b) end
 
 ---Returns the distance between a and b
 ---@param a Vector3
 ---@param b Vector3
 ---@return number distance
-function Vector3.Distance(a, b) end
+function _Vector3.Distance(a, b) end
 
 ---Dot product of two vectors.
 ---@param a Vector3
 ---@param b Vector3
 ---@return number scalar A scalar value representing how aligned the two vectors are.
-function Vector3.Dot(a, b) end
+function _Vector3.Dot(a, b) end
 
 ---Linearly interpolates between two points.
 ---@param a Vector3 The starting point.
 ---@param b Vector3 The ending point.
 ---@param t number Interpolation factor between 0 and 1, where 0 returns `a` and 1 returns `b`.
 ---@return Vector3 Vector3 The interpolated vector.
-function Vector3.Lerp(a, b, t) end
+function _Vector3.Lerp(a, b, t) end
 
 ---Returns a vector that is made from the largest components of two vectors.
 ---@param a Vector3
 ---@param b Vector3
 ---@return Vector3 Vector3
-function Vector3.Max(a, b) end
+function _Vector3.Max(a, b) end
 
 ---Returns a vector that is made from the smallest components of two vectors.
 ---@param a Vector3
 ---@param b Vector3
 ---@return Vector3 Vector3
-function Vector3.Min(a, b) end
+function _Vector3.Min(a, b) end
 
 ---Calculates a position between `current` and `target`, moving no farther than `maxDistanceDelta`.
 ---@param current Vector3
 ---@param target Vector3
 ---@param maxDistanceDelta number
 ---@return Vector3 Vector3 The new moved position.
-function Vector3.MoveTowards(current, target, maxDistanceDelta) end
+function _Vector3.MoveTowards(current, target, maxDistanceDelta) end
 
 ---Returns a vector with the same direction as the input, but with a magnitude of 1.
 ---@param value Vector3
 ---@return Vector3 Vector3 A new normalized vector.
-function Vector3.Normalize(value) end
+function _Vector3.Normalize(value) end
 
 ---Projects a vector onto another vector.
 ---@param vector Vector3 The vector to project.
 ---@param onNormal Vector3 The vector to project onto.
 ---@return Vector3 Vector3 The projection of `vector` onto `onNormal`.
-function Vector3.Project(vector, onNormal) end
+function _Vector3.Project(vector, onNormal) end
 
 ---Projects a vector onto a plane defined by a normal orthogonal to the plane.
 ---@param vector Vector3 The vector to project.
 ---@param planeNormal Vector3 The normal of the plane.
 ---@return Vector3 Vector3 The projection of `vector` onto the plane.
-function Vector3.ProjectOnPlane(vector, planeNormal) end
+function _Vector3.ProjectOnPlane(vector, planeNormal) end
 
 ---Reflects a vector off the plane defined by a normal.
 ---@param inDirection Vector3 The incoming vector.
 ---@param inNormal Vector3 The normal of the plane to reflect off.
 ---@return Vector3 Vector3 The reflected vector.
-function Vector3.Reflect(inDirection, inNormal) end
+function _Vector3.Reflect(inDirection, inNormal) end
 
 ---Rotates a vector `current` towards `target`.
 ---@param current Vector3 The starting vector.
@@ -572,34 +579,34 @@ function Vector3.Reflect(inDirection, inNormal) end
 ---@param maxRadiansDelta number The maximum change in angle allowed.
 ---@param maxMagnitudeDelta number The maximum change in magnitude allowed.
 ---@return Vector3 Vector3 The new vector after rotating towards `target`.
-function Vector3.RotateTowards(current, target, maxRadiansDelta, maxMagnitudeDelta) end
+function _Vector3.RotateTowards(current, target, maxRadiansDelta, maxMagnitudeDelta) end
 
 ---Multiplies two vectors component-wise.
 ---@param a Vector3
 ---@param b Vector3
 ---@return Vector3 Vector3
-function Vector3.Scale(a, b) end
+function _Vector3.Scale(a, b) end
 
 ---Returns the signed angle in degrees between from and to.
 ---@param from Vector3
 ---@param to Vector3
 ---@param axis Vector3 The axis to measure the rotation around.
 ---@return number angle The signed angle in degrees.
-function Vector3.SignedAngle(from, to, axis) end
+function _Vector3.SignedAngle(from, to, axis) end
 
 ---Spherically interpolates between two vectors.
 ---@param a Vector3 The starting vector.
 ---@param b Vector3 The target vector.
 ---@param t number Interpolation factor between 0 and 1, where 0 returns `a` and 1 returns `b`.
 ---@return Vector3 Vector3 The interpolated vector.
-function Vector3.Slerp(a, b, t) end
+function _Vector3.Slerp(a, b, t) end
 
 ---Spherically interpolates between two vectors without clamping the interpolation factor.
 ---@param a Vector3 The starting vector.
 ---@param b Vector3 The target vector.
 ---@param t number Interpolation factor.
 ---@return Vector3 Vector3 The interpolated vector.
-function Vector3.SlerpUnclamped(a, b, t) end
+function _Vector3.SlerpUnclamped(a, b, t) end
 
 ---Gradually changes a vector towards a desired goal over time.
 ---@param current Vector3 The current vector value.
@@ -610,7 +617,7 @@ function Vector3.SlerpUnclamped(a, b, t) end
 ---@param deltaTime number The time step to use for this calculation.
 ---@return Vector3 newPosition The new vector after applying smoothing.
 ---@return Vector3 newVelocity The updated velocity vector after smoothing.
-function Vector3.SmoothDamp(current, target, currentVelocity, smoothTime, maxSpeed, deltaTime) end
+function _Vector3.SmoothDamp(current, target, currentVelocity, smoothTime, maxSpeed, deltaTime) end
 
 
 
@@ -622,7 +629,6 @@ function Vector3.SmoothDamp(current, target, currentVelocity, smoothTime, maxSpe
 ---@field max Vector3 The maximal point of the box. This is always equal to center+extents.
 ---@field min Vector3 The minimal point of the box. This is always equal to center-extents.
 ---@field size Vector3 The total size of the box. This is always twice as large as the extents.
-local Bounds = {}
 
 
 
@@ -635,18 +641,6 @@ local Bounds = {}
 ---@field x number X component of the Quaternion. Don't modify this directly unless you know quaternions inside out.
 ---@field y number Y component of the Quaternion. Don't modify this directly unless you know quaternions inside out.
 ---@field z number Z component of the Quaternion. Don't modify this directly unless you know quaternions inside out.
-local Quaternion = {}
-
-
-
--------------------------- Signal --------------------------
-
----@class Signal
----@field Invoked Event
-local Signal = {}
-
----@param ... any
-function Signal:Invoke(...) end
 
 
 
@@ -660,6 +654,14 @@ function Event:Connect(callback) end
 
 ---@param callback function
 function Event:Disconnect(callback) end
+
+
+
+-------------------------- VarargEvent --------------------------
+---@class VarargEvent: Event
+local VarargEvent = {}
+---@param callback fun(...: any)
+function VarargEvent:Connect(callback) end
 
 
 
@@ -696,30 +698,8 @@ function TouchedEvent:Connect(callback) end
 
 -------------------------- Instance --------------------------
 
----@class Instance
----@field CanReparent boolean Returns whether this instance can be reparented/deleted or not.
----@field ClassName string Returns the name of the class.
----@field Item Instance
----@field Name string Specifies the name of an instance.
----@field Parent Instance Specifies the parent instance of an instance.
----@field Shared {} An empty table you can use to hold metadata about anything on any object or player you want. This does not replicate from server to client.
----@field ClientSpawned boolean Returns whether or not the instance was spawned by the client.
-local Instance = {}
-
----@type ChildCountChangedEvent
-Instance.ChildAdded = nil
----@type ChildCountChangedEvent
-Instance.ChildRemoved = nil
----@type ClickedEvent 
-Instance.Clicked = nil
----@type Event 
-Instance.MouseEnter = nil
----@type Event
-Instance.MouseExit = nil
----@type TouchedEvent 
-Instance.Touched = nil
----@type TouchedEvent 
-Instance.TouchEnded = nil
+---@class _Instance
+local _Instance = {}
 
 ---Create a new instance.
 ---@overload fun(typeOfInstance: "Part"): Part
@@ -727,10 +707,10 @@ Instance.TouchEnded = nil
 ---@overload fun(typeOfInstance: "Seat"): Seat
 ---@overload fun(typeOfInstance: "Text3D"): Text3D
 ---@overload fun(typeOfInstance: "NPC"): NPC
----@overload fun(typeOfInstance: "Model"): DynamicInstance
+---@overload fun(typeOfInstance: "Model"): Model
 ---@overload fun(typeOfInstance: "Tool"): Tool
----@overload fun(typeOfInstance: "Truss"): Climbable
----@overload fun(typeOfInstance: "Folder"): Instance
+---@overload fun(typeOfInstance: "Truss"): Truss
+---@overload fun(typeOfInstance: "Folder"): Folder
 ---@overload fun(typeOfInstance: "Decal"): Decal
 ---@overload fun(typeOfInstance: "GradientSky"): GradientSky
 ---@overload fun(typeOfInstance: "ImageSky"): ImageSky
@@ -740,7 +720,9 @@ Instance.TouchEnded = nil
 ---@overload fun(typeOfInstance: "SunLight"): SunLight
 ---@overload fun(typeOfInstance: "Sound"): Sound
 ---@overload fun(typeOfInstance: "BodyPosition"): BodyPosition
----@overload fun(typeOfInstance: "ScriptInstance"|"LocalScript"|"ModuleScript"): BaseScript
+---@overload fun(typeOfInstance: "ScriptInstance"): ScriptInstance
+---@overload fun(typeOfInstance: "LocalScript"): LocalScript
+---@overload fun(typeOfInstance: "ModuleScript"): ModuleScript
 ---@overload fun(typeOfInstance: "NetworkEvent"): NetworkEvent
 ---@overload fun(typeOfInstance: "BoolValue"): BoolValue
 ---@overload fun(typeOfInstance: "ColorValue"): ColorValue
@@ -760,10 +742,29 @@ Instance.TouchEnded = nil
 ---@overload fun(typeOfInstance: "UIView"): UIView
 ---@param parent? Instance
 ---@return Instance Instance
-function Instance.New(typeOfInstance, parent) end
+function _Instance.New(typeOfInstance, parent) end
+
+---@class Instance
+---@field CanReparent boolean Returns whether this instance can be reparented/deleted or not.
+---@field ClassName string Returns the name of the class.
+---@field Item Instance
+---@field Name string Specifies the name of an instance.
+---@field Parent Instance Specifies the parent instance of an instance.
+---@field Shared {} An empty table you can use to hold metadata about anything on any object or player you want. This does not replicate from server to client.
+---@field ClientSpawned boolean Returns whether or not the instance was spawned by the client.
+---@field ChildAdded ChildCountChangedEvent Fires when a child instance is added.
+---@field ChildRemoved ChildCountChangedEvent Fires when a child instance is removed.
+---@field Clicked PlayerEvent Fires when the instance is clicked by a player.
+---@field MouseEnter Event Fires when the mouse enters the instance.
+---@field MouseExit Event Fires when the mouse enters the instance.
+---@field Touched TouchedEvent Fires when the instance was touched by another instance. If you are trying to detect a player touching the instance, make sure to check with `otherPart:IsA('Player')` before continuing the anonymous function. Also, it's recommended to apply a debounce variable to the event.
+---@field TouchEnded TouchedEvent Fires when the instance is no longer being touched by another instance.
+local Instance = {}
 
 ---Clones the instance
----@return Instance clone A clone of the specified instance.
+---@generic self : Instance
+---@param self self
+---@return self clone
 function Instance:Clone() end
 
 ---Destroys the instance (same as Delete method).
@@ -780,7 +781,7 @@ function Instance:GetParent() end
 function Instance:SetParent(newParent) end
 
 ---Returns whether or not the instance is the specified class.
----@param className string
+---@param className classList
 ---@return boolean bool
 function Instance:IsA(className) end
 
@@ -795,7 +796,59 @@ function Instance:IsDescendantOf(other) end
 function Instance:FindChild(name) end
 
 ---Attempts to find the first child instance with the specified class (`nil` if not found).
----@param className string
+---@overload fun(self: Instance, className: "Environment"): Environment?
+---@overload fun(self: Instance, className: "Lighting"): Lighting?
+---@overload fun(self: Instance, className: "Camera"): Camera?
+---@overload fun(self: Instance, className: "Player"): Player?
+---@overload fun(self: Instance, className: "ScriptService"): ScriptService?
+---@overload fun(self: Instance, className: "Hidden"): Hidden?
+---@overload fun(self: Instance, className: "Backpack"): Backpack?
+---@overload fun(self: Instance, className: "PlayerDefaults"): PlayerDefaults?
+---@overload fun(self: Instance, className: "Players"): Players?
+---@overload fun(self: Instance, className: "Part"): Part?
+---@overload fun(self: Instance, className: "MeshPart"): MeshPart?
+---@overload fun(self: Instance, className: "Seat"): Seat?
+---@overload fun(self: Instance, className: "Text3D"): Text3D?
+---@overload fun(self: Instance, className: "NPC"): NPC?
+---@overload fun(self: Instance, className: "Model"): Model?
+---@overload fun(self: Instance, className: "Tool"): Tool?
+---@overload fun(self: Instance, className: "Truss"|"Climbable"): Climbable?
+---@overload fun(self: Instance, className: "Folder"): Folder?
+---@overload fun(self: Instance, className: "Decal"): Decal?
+---@overload fun(self: Instance, className: "GradientSky"): GradientSky?
+---@overload fun(self: Instance, className: "ImageSky"): ImageSky?
+---@overload fun(self: Instance, className: "Particles"): Particles?
+---@overload fun(self: Instance, className: "PointLight"): PointLight?
+---@overload fun(self: Instance, className: "SpotLight"): SpotLight?
+---@overload fun(self: Instance, className: "SunLight"): SunLight?
+---@overload fun(self: Instance, className: "Sound"): Sound?
+---@overload fun(self: Instance, className: "BodyPosition"): BodyPosition?
+---@overload fun(self: Instance, className: "ScriptInstance"): ScriptInstance?
+---@overload fun(self: Instance, className: "LocalScript"): LocalScript?
+---@overload fun(self: Instance, className: "ModuleScript"): ModuleScript?
+---@overload fun(self: Instance, className: "BaseScript"): BaseScript?
+---@overload fun(self: Instance, className: "NetworkEvent"): NetworkEvent?
+---@overload fun(self: Instance, className: "Signal"): Signal?
+---@overload fun(self: Instance, className: "BoolValue"): BoolValue?
+---@overload fun(self: Instance, className: "ColorValue"): ColorValue?
+---@overload fun(self: Instance, className: "InstanceValue"): InstanceValue?
+---@overload fun(self: Instance, className: "IntValue"): IntValue?
+---@overload fun(self: Instance, className: "NumberValue"): NumberValue?
+---@overload fun(self: Instance, className: "StringValue"): StringValue?
+---@overload fun(self: Instance, className: "Vector3Value"): Vector3Value?
+---@overload fun(self: Instance, className: "ValueBase"): ValueBase?
+---@overload fun(self: Instance, className: "GUI"): GUI?
+---@overload fun(self: Instance, className: "UIButton"): UIButton?
+---@overload fun(self: Instance, className: "UIHVLayout"): UIHVLayout?
+---@overload fun(self: Instance, className: "UIHorizontalLayout"): UIHorizontalLayout?
+---@overload fun(self: Instance, className: "UIImage"): UIImage?
+---@overload fun(self: Instance, className: "UILabel"): UILabel?
+---@overload fun(self: Instance, className: "UITextInput"): UITextInput?
+---@overload fun(self: Instance, className: "UIVerticalLayout"): UIVerticalLayout?
+---@overload fun(self: Instance, className: "UIView"): UIView?
+---@overload fun(self: Instance, className: string): Instance?
+---@overload fun(self: Instance, className: "DynamicInstance"): DynamicInstance?
+---@overload fun(self: Instance, className: "Instance"): Instance?
 ---@return Instance? child
 function Instance:FindChildByClass(className) end
 
@@ -804,8 +857,61 @@ function Instance:FindChildByClass(className) end
 function Instance:GetChildren() end
 
 ---Returns an array of all the children instances with the specified class.
+---@overload fun(self: Instance, className: "Environment"): Environment[]
+---@overload fun(self: Instance, className: "Lighting"): Lighting[]
+---@overload fun(self: Instance, className: "Camera"): Camera[]
+---@overload fun(self: Instance, className: "Player"): Player[]
+---@overload fun(self: Instance, className: "ScriptService"): ScriptService[]
+---@overload fun(self: Instance, className: "Hidden"): Hidden[]
+---@overload fun(self: Instance, className: "Backpack"): Backpack[]
+---@overload fun(self: Instance, className: "PlayerDefaults"): PlayerDefaults[]
+---@overload fun(self: Instance, className: "Players"): Players[]
+---@overload fun(self: Instance, className: "Part"): Part[]
+---@overload fun(self: Instance, className: "MeshPart"): MeshPart[]
+---@overload fun(self: Instance, className: "Seat"): Seat[]
+---@overload fun(self: Instance, className: "Text3D"): Text3D[]
+---@overload fun(self: Instance, className: "NPC"): NPC[]
+---@overload fun(self: Instance, className: "Model"): Model[]
+---@overload fun(self: Instance, className: "Tool"): Tool[]
+---@overload fun(self: Instance, className: "Truss"|"Climbable"): Climbable[]
+---@overload fun(self: Instance, className: "Folder"): Folder[]
+---@overload fun(self: Instance, className: "Decal"): Decal[]
+---@overload fun(self: Instance, className: "GradientSky"): GradientSky[]
+---@overload fun(self: Instance, className: "ImageSky"): ImageSky[]
+---@overload fun(self: Instance, className: "Particles"): Particles[]
+---@overload fun(self: Instance, className: "PointLight"): PointLight[]
+---@overload fun(self: Instance, className: "SpotLight"): SpotLight[]
+---@overload fun(self: Instance, className: "SunLight"): SunLight[]
+---@overload fun(self: Instance, className: "Sound"): Sound[]
+---@overload fun(self: Instance, className: "BodyPosition"): BodyPosition[]
+---@overload fun(self: Instance, className: "ScriptInstance"): ScriptInstance[]
+---@overload fun(self: Instance, className: "LocalScript"): LocalScript[]
+---@overload fun(self: Instance, className: "ModuleScript"): ModuleScript[]
+---@overload fun(self: Instance, className: "BaseScript"): BaseScript[]
+---@overload fun(self: Instance, className: "NetworkEvent"): NetworkEvent[]
+---@overload fun(self: Instance, className: "Signal"): Signal[]
+---@overload fun(self: Instance, className: "BoolValue"): BoolValue[]
+---@overload fun(self: Instance, className: "ColorValue"): ColorValue[]
+---@overload fun(self: Instance, className: "InstanceValue"): InstanceValue[]
+---@overload fun(self: Instance, className: "IntValue"): IntValue[]
+---@overload fun(self: Instance, className: "NumberValue"): NumberValue[]
+---@overload fun(self: Instance, className: "StringValue"): StringValue[]
+---@overload fun(self: Instance, className: "Vector3Value"): Vector3Value[]
+---@overload fun(self: Instance, className: "ValueBase"): ValueBase[]
+---@overload fun(self: Instance, className: "GUI"): GUI[]
+---@overload fun(self: Instance, className: "UIButton"): UIButton[]
+---@overload fun(self: Instance, className: "UIHVLayout"): UIHVLayout[]
+---@overload fun(self: Instance, className: "UIHorizontalLayout"): UIHorizontalLayout[]
+---@overload fun(self: Instance, className: "UIImage"): UIImage[]
+---@overload fun(self: Instance, className: "UILabel"): UILabel[]
+---@overload fun(self: Instance, className: "UITextInput"): UITextInput[]
+---@overload fun(self: Instance, className: "UIVerticalLayout"): UIVerticalLayout[]
+---@overload fun(self: Instance, className: "UIView"): UIView[]
+---@overload fun(self: Instance, className: string): Instance[]
+---@overload fun(self: Instance, className: "DynamicInstance"): DynamicInstance[]
+---@overload fun(self: Instance, className: "Instance"): Instance[]
 ---@return Instance[] children
-function Instance:GetChildrenOfClass() end
+function Instance:GetChildrenOfClass(className) end
 
 ---Returns the bounds of the instance.
 ---@return Bounds Bounds An axis-aligned bounding box defined by its center and extents.
@@ -828,9 +934,6 @@ function Instance:GetBounds() end
 ---@field Quaternion Quaternion The quaternion of this DynamicInstance
 ---@field LocalQuaternion Quaternion The local quaternion of this DynamicInstance
 local DynamicInstance = {}
-
-
-
 
 ---Rotates the DynamicInstance so that the forward vector looks at the target.
 ---@param rotation Vector3 The target rotation.
@@ -898,11 +1001,7 @@ function DynamicInstance:InverseTransformPosition(position) end
 
 -------------------------- Game --------------------------
 
----@class Game: Instance
----@field GameID number The ID of the current Polytoria place.
----@field InstanceCount number The total number of instances currently loaded.
----@field LocalInstanceCount number The number of instances currently loaded on the client.
----@field PlayersConnected number Returns the number of players connected to the game.
+---@class Game: Instance Game is the root object in the Polytoria instance tree. It is the object from which everything is descended.
 ---@field ["Environment"] Environment
 ---@field ["Lighting"] Lighting
 ---@field ["Players"] Players
@@ -911,17 +1010,18 @@ function DynamicInstance:InverseTransformPosition(position) end
 ---@field ["ServerHidden"] Instance
 ---@field ["PlayerDefaults"] PlayerDefaults
 ---@field ["PlayerGui"] PlayerGui
+---@field GameID number The ID of the current Polytoria place.
+---@field InstanceCount number The total number of instances currently loaded.
+---@field LocalInstanceCount number The number of instances currently loaded on the client.
+---@field PlayersConnected number Returns the number of players connected to the game.
+---@field Rendered RenderedEvent Fires every frame after the place has been rendered. The `deltaTime` parameter is the time between the last frame and the current.
 local game = {}
-
----@type RenderedEvent
-game.Rendered = nil
-
 
 
 -------------------------- Environment --------------------------
 
----@class Environment: Instance
----@field AutoGenerateNavMesh boolean Determines whether or not to automatically build a navigation mesh for NPC pathfinding. This property is disabled by default so there are no performance issues with larger maps. When updating the map, even if the property is set to true, you will still have to manually call the `Environment:BuildNavMesh()` method.
+---@class Environment: Instance Environment is the primary object intended for storing active objects in the place.
+---@field AutoGenerateNavMesh boolean Determines whether or not to automatically build a navigation mesh for NPC pathfinding. This property is disabled by default so there are no performance issues with larger maps. AutoGenerateNavMesh only runs once upon being set to true. Changing the map will still require you to run RebuildNavMesh.
 ---@field FogColor Color
 ---@field FogEnabled boolean
 ---@field FogStartDistance number
@@ -1008,7 +1108,7 @@ function Environment:RaycastAll(origin, direction, maxDistance, ignoreList) end
 ---```lua
 ---game["Environment"]:RebuildNavMesh()
 -----or
----game["Environment"]:RebuildNavMesh(game["Workspace"]["Map"])
+---game["Environment"]:RebuildNavMesh(game["Environment"]["Map"])
 ---```
 ---@param root? Instance Optional root instance to limit the nav mesh rebuild scope.
 function Environment:RebuildNavMesh(root) end
@@ -1023,7 +1123,7 @@ function Environment:GetPointOnNavMesh(position, maxDistance) end
 
 -------------------------- Lighting --------------------------
 
----@class Lighting: Instance
+---@class Lighting: Instance Lighting is responsible for controlling the state of the lighting in the place. It provides many different options for creators to enhance and fine-tune the visuals of their worlds.
 ---@field AmbientColor Color Determines the color of the ambient light. Ambient light is light that is not coming from any particular direction, and is used to simulate light bouncing off of surfaces. This property is only used if AmbientSource is set to AmbientSource.AmbientColor.
 ---@field AmbientSource AmbientSource Determines the source of the ambient light.
 ---@field SunBrightness number Determines the brightness of the sun.
@@ -1035,7 +1135,7 @@ local Lighting = {}
 
 -------------------------- Camera --------------------------
 
----@class Camera: DynamicInstance
+---@class Camera: DynamicInstance Camera is a class that represents the local player's camera.
 ---@field Distance number Determines the distance between the camera and the player when the camera is in `FollowPlayer` mode.
 ---@field FOV number Determines or returns the camera's field of view.
 ---@field FastFlySpeed number Determines the camera speed when the camera is in `FreeCam` mode while holding shift.
@@ -1071,7 +1171,7 @@ function ChattedEvent:Connect(callback) end
 
 -------------------------- Player --------------------------
 
----@class Player: Instance
+---@class Player: Instance Player is the class of the player and it's character controlled by it's player.
 ---@field Anchored boolean Determines whether or not the player is anchored. The idle animation still plays and this property does not reset on respawn/reset.
 ---@field CanMove boolean Determines whether or not the player can move.
 ---@field ChatColor Color The player's username color in the chat.
@@ -1099,7 +1199,9 @@ function ChattedEvent:Connect(callback) end
 ---@field TorsoColor Color Specifies the color of the players's torso.
 ---@field UserID number Returns the player's user ID.
 ---@field WalkSpeed number Determines how fast the player walks.
----@field ["Backpack"] Instance The backpack is used for storing tools that the player can equip.
+---@field ["Backpack"] Backpack
+---@field Died Event Fires when the player dies.
+---@field Respawned Event Fires when the player respawns.
 local Player = {}
 
 ---Fires when the player sends a chat message. You can prevent other players from seeing the chat message by setting the event's `Canceled` property like this: `event.Canceled = true`.
@@ -1111,18 +1213,6 @@ local Player = {}
 ---```
 ---@type ChattedEvent
 Player.Chatted = nil
-
----Fires when the player dies.
----@type Event
-Player.Died = nil
-
----Fires when the player respawns.
----@type Event
-Player.Respawned = nil
-
-
-
-
 
 ---Drops the tool the player is currently holding. (SERVER-SIDE ONLY)
 function Player:DropTools() end
@@ -1173,8 +1263,16 @@ function Player:Unsit(addForce) end
 
 
 
+-------------------------- SimpleClasses --------------------------
+
+---@class ScriptService: Instance ScriptService is a service used for storing scripts and local scripts.
+---@class Hidden: Instance Hidden is a service used for hiding instances.
+---@class Backpack: Instance Backpack is a child of player used for storing tools.
+
+
+
 -------------------------- PlayerDefaults --------------------------
----@class PlayerDefaults: Instance
+---@class PlayerDefaults: Instance PlayerDefaults is a service used for storing the default values of the Player when created.
 ---@field ChatColor Color Determines the default color of players' usernames in chat.
 ---@field JumpPower number Determines how high the player jumps by default.
 ---@field MaxHealth number Determines the default maximum health of players.
@@ -1185,7 +1283,7 @@ function Player:Unsit(addForce) end
 ---@field StaminaEnabled boolean Determines whether or not stamina is enabled by default for players.
 ---@field StaminaRegen number Determines the default rate at which stamina regenerates after being depleted for players.
 ---@field WalkSpeed number Determines how fast the player walks by default.
----@field ["Backpack"] Instance
+---@field ["Backpack"] Backpack
 local PlayerDefaults = {}
 
 ---Resets the specified player back to their default values.
@@ -1196,16 +1294,12 @@ function PlayerDefaults:LoadDefaults(player) end
 
 -------------------------- Players --------------------------
 
----@class Players: Instance
+---@class Players: Instance Players is the container class for all Player instances.
 ---@field LocalPlayer Player Returns the local player currently playing. (CLIENT-SIDE ONLY)
 ---@field PlayerCollisionEnabled boolean Determines whether or not collisions between players are enabled.
+---@field PlayerAdded PlayerEvent Fires when a player joins the server.
+---@field PlayerRemoved PlayerEvent Fires when a player leaves the server.
 local Players = {}
-
----@type PlayerEvent
-Players.PlayerAdded = nil
-
----@type PlayerEvent
-Players.PlayerRemoved = nil
 
 ---Returns the player instance from their username.
 ---@param username string
@@ -1225,7 +1319,7 @@ function Players:GetPlayers() end
 
 -------------------------- Part --------------------------
 
----@class Part: Instance
+---@class Part: DynamicInstance Parts are physical objects that can be placed in the world.
 ---@field Anchored boolean Specifies whether the part is to be affected by physics or not.
 ---@field AngularDrag number Angular drag (air resistance) of this part.
 ---@field AngularVelocity Vector3 Specifies the angular velocity of a part.
@@ -1283,7 +1377,7 @@ function Part:AddRelativeTorque(torque, mode) end
 
 -------------------------- MeshPart --------------------------
 
----@class MeshPart: DynamicInstance
+---@class MeshPart: DynamicInstance MeshPart is a part that can have custom mesh applied to it, the mesh may be from the Polytoria Store (Hats, Tools and Heads) or user-uploaded meshes.
 ---@field Anchored boolean Specifies whether the part is to be affected by physics or not.
 ---@field AngularVelocity Vector3 Specifies the angular velocity of a part.
 ---@field AssetID number The asset ID of the mesh part.
@@ -1333,21 +1427,16 @@ function MeshPart:GetAnimationInfo() end
 
 -------------------------- Seat --------------------------
 
----@class Seat: Part
+---@class Seat: Part Seats are parts the player can sit on.
 ---@field Occupant Player? The player that is currently sitting in this seat.
-local Seat = {}
-
----@type PlayerEvent
-Seat.Sat = nil
-
----@type PlayerEvent
-Seat.Vacated = nil
+---@field Sat PlayerEvent Fires when a player sits in the seat.
+---@field Vacated PlayerEvent Fires when a player leaves the seat.
 
 
 
 -------------------------- Text3D --------------------------
 
----@class Text3D: DynamicInstance
+---@class Text3D: DynamicInstance Text3D allows for placement of text in the world.
 ---@field Color Color Specifies the color of the text.
 ---@field FaceCamera boolean Determines whether or not the text should be facing the camera or not.
 ---@field Font TextFontPreset Specifies the font of the text.
@@ -1355,12 +1444,11 @@ Seat.Vacated = nil
 ---@field HorizontalAlignment HorizontalAlignment Specifies the horizontal alignment of the text.
 ---@field Text string Specifies the text to display.
 ---@field VerticalAlignment VerticalAlignment Specifies the vertical alignment of the text.
-local Text3D = {}
 
 
 
 -------------------------- NPC --------------------------
----@class NPC: DynamicInstance
+---@class NPC: DynamicInstance NPC (non-player character) is an object similar to a Player but that can be controlled by code. Like players, it can walk and jump, and its body part colors can be customized.
 ---@field Anchored boolean Determines whether the NPC is affected by physics or not.
 ---@field FaceID number The face ID of the NPC's face.
 ---@field Grounded boolean Returns true if the NPC is currently standing on the ground.
@@ -1381,10 +1469,8 @@ local Text3D = {}
 ---@field NavDestinationValid boolean Returns whether or not the NPC has a valid path to its set destination.
 ---@field NavDestinationReached boolean Returns whether or not the NPC has reached the end of its pathfind.
 ---@field Velocity Vector3 Returns or sets the velocity of the NPC.
+---@field Died Event Fires when the NPC dies.
 local NPC = {}
-
----@type Event
-NPC.Died = nil
 
 ---Loads the specified user ID's avatar on the NPC.
 ---@param userID number
@@ -1411,52 +1497,62 @@ function NPC:EquipTool(tool) end
 function NPC:DropTool() end
 
 
+-------------------------- Model --------------------------
+
+---@class Model: DynamicInstance Model is an instance that can hold other instances, and which transform affects its children.
+
+
 
 -------------------------- Tool --------------------------
 
----@class Tool: DynamicInstance
+---@class Tool: DynamicInstance Tools are objects that can be held by players.
 ---@field Droppable boolean Determines whether the tool can be dropped by the player or not.
+---@field Activated Event Fires when the user clicks while holding the tool.
+---@field Deactivated Event Gets fired when the user lets go of the mouse button while holding the tool.
+---@field Equipped Event Fired when the tool is equipped.
+---@field Unequipped Event Fired when the tool is unequipped.
 local Tool = {}
 
----@type Event
-Tool.Activated = nil
----@type Event
-Tool.Deactivated = nil
----@type Event
-Tool.Equipped = nil
----@type Event
-Tool.Unequipped = nil
-
 ---Plays an animation on the tool or the player that is currently holding the tool.
----@param animationName "slash"|"eat"|"drink"|string The animation to play.
+---@param animationName "slash"|"eat"|"drink" The animation to play.
 function Tool:Play(animationName) end
+
+
+
+-------------------------- Truss --------------------------
+
+---@class Truss: Climbable Trusses are parts that can be climbed by the player.
 
 
 
 -------------------------- Climbable --------------------------
 
----@class Climbable: Part
+---@class Climbable: Part This object exists only to serve as a foundation for other objects. It cannot be accessed directly.
 ---@field ClimbSpeed number Determines how fast a player can climb the object.
-local Climbable = {}
+
+
+
+-------------------------- Folder --------------------------
+
+---@class Folder: Instance Folder is similar to a model, used for storing objects in the place.
 
 
 
 -------------------------- Decal --------------------------
 
----@class Decal: DynamicInstance
+---@class Decal: DynamicInstance Decals are objects that can have an image texture and are placed in the world.
 ---@field Color Color Determines the color of the decal.
 ---@field ImageType ImageType The type of image to be used.
 ---@field ImageID number Specifies the image asset ID of the decal.
 ---@field TextureOffset Vector2 The offset of the texture on the decal.
 ---@field TextureScale Vector2 The scale of the texture on the decal.
 ---@field CastShadows boolean Determines whether or not the decal should cast shadows.
-local Decal = {}
 
 
 
 -------------------------- GradientSky --------------------------
 
----@class GradientSky
+---@class GradientSky GradientSky is a class that is used to set a gradient skybox in the world.
 ---@field HorizonLineColor Color Determines the horizon line's color.
 ---@field HorizonLineExponent number Determines the horizon line's exponent.
 ---@field HorizonLineContribution number Determines how much the horizon line contributes.
@@ -1469,26 +1565,24 @@ local Decal = {}
 ---@field SunHaloColor Color Determines the color of the sun halo.
 ---@field SunHaloExponent number Determines the exponent of the sun halo.
 ---@field SunHaloContribution number Determines the contribution of the sun halo.
-local GradientSky = {}
 
 
 
 -------------------------- ImageSky --------------------------
 
----@class ImageSky
+---@class ImageSky ImageSky is a class that is used to set a custom image skybox in the world. You can set the images used for the individual sides of the skybox by changing the ID properties. Any image from the library can be used for the skybox.
 ---@field BackId number The image ID of the back side of the skybox.
 ---@field BottomId number The image ID of the bottom side of the skybox.
 ---@field FrontId number The image ID of the front side of the skybox.
 ---@field LeftId number The image ID of the left side of the skybox.
 ---@field RightId number The image ID of the right side of the skybox.
 ---@field TopId number The image ID of the top side of the skybox.
-local ImageSky = {}
 
 
 
 -------------------------- Particles --------------------------
 
----@class Particles: DynamicInstance
+---@class Particles: DynamicInstance Particles are objects, that spawn and render particles in the world.
 ---@field ImageID string Specifies the image asset ID that the particles will use. 
 ---@field ImageType ImageType The image type of the specified image id.
 ---@field Color Color The color of the particles, over the lifetime of the particle.
@@ -1541,40 +1635,37 @@ function Particles:Simulate(time) end
 
 -------------------------- PointLight --------------------------
 
----@class PointLight: DynamicInstance
+---@class PointLight: DynamicInstance PointLight is a source of light that can be placed in the world.
 ---@field Brightness number Specifies how bright/intense the light is.
 ---@field Color Color Specifies the color of the light.
 ---@field Range number Specifies how far out the light can reach.
 ---@field Shadows boolean Specifies whether this light emits shadows or not.
-local PointLight = {}
 
 
 
 -------------------------- SpotLight --------------------------
 
----@class SpotLight: DynamicInstance
+---@class SpotLight: DynamicInstance SpotLight is a source of light emitting in a specific direction and angle that can be placed in the world.
 ---@field Angle number Specifies the angle of the spotlight.
 ---@field Brightness number Specifies how bright/intense the light is.
 ---@field Color Color Specifies the color of the light.
 ---@field Range number Specifies how far out the light can reach.
 ---@field Shadows boolean Specifies whether this light emits shadows or not.
-local SpotLight = {}
 
 
 
 -------------------------- SunLight --------------------------
 
----@class SunLight: DynamicInstance
+---@class SunLight: DynamicInstance SunLight is the sun light in the game.
 ---@field Color Color Specifies the color of the light.
 ---@field Brightness number Specifies how bright/intense the light is.
 ---@field Shadows boolean Specifies whether this light emits shadows or not.
-local SunLight = {}
 
 
 
 -------------------------- Sound --------------------------
 
----@class Sound: DynamicInstance
+---@class Sound: DynamicInstance Sounds are objects that can be placed in the world and emit audio.
 ---@field Autoplay boolean Determines whether the sound should start playing automatically.
 ---@field Loading boolean Returns whether or not the sound is loading or not.
 ---@field Length number Returns the length of the currently loaded audio.
@@ -1586,11 +1677,8 @@ local SunLight = {}
 ---@field SoundID string The asset ID of the sound.
 ---@field Time number The time position the track is currently on.
 ---@field Volume number The volume of the sound.
+---@field Loaded Event The event that is fired when the sound is loaded from the server.
 local Sound = {}
-
----@type Event
-Sound.Loaded = nil
-
 
 ---Plays the sound.
 function Sound:Play() end
@@ -1606,17 +1694,20 @@ function Sound:Stop() end
 
 -------------------------- BodyPosition --------------------------
 
----@class BodyPosition: Instance
+---@class BodyPosition: Instance BodyPosition are objects that apply a force to their parent until it moves toward the target position.
 ---@field AcceptanceDistance number Determines how close the body has to be to the target position to stop applying forces to it.
 ---@field Force number Determines how much force the body applies.
 ---@field TargetPosition Vector3 Determines the target position that the body applies forces to get to.
-local BodyPosition = {}
 
 
 
--------------------------- BaseScript --------------------------
+-------------------------- Scripts --------------------------
 
----@class BaseScript: Instance
+---@class ScriptInstance: BaseScript ScriptInstances run Lua code on the server. Any code that should be kept on the server (such as Datastores) should be kept in a ScriptInstance.
+---@class LocalScript: BaseScript LocalScript is a script that runs locally for each player. It can only see what the player can see.
+---@class ModuleScript: BaseScript ModuleScripts are specialized scripts to hold data that can be accessed by other scripts using the `require()` function.
+
+---@class BaseScript: Instance BaseScripts are the base class of all script types. BaseScripts are the base class of all script types.
 local BaseScript = {}
 
 ---Calls a function on another script. 
@@ -1638,16 +1729,10 @@ function InvokedEvent:Connect(callback) end
 
 -------------------------- NetworkEvent --------------------------
 
----@class NetworkEvent: Instance
+---@class NetworkEvent: Instance NetworkEvents are events that can be called to communicate between server and client.
+---@field InvokedClient InvokedEvent Fires when the client receives a message from the server.
+---@field InvokedServer InvokedEvent Fires when the server receives a message from the client.
 local NetworkEvent = {}
-
----Fires when the client receives a message from the server.
----@type InvokedEvent
-NetworkEvent.InvokedClient = nil
-
----Fires when the server receives a message from the client.
----@type InvokedEvent
-NetworkEvent.InvokedServer = nil
 
 ---Sends a network event to the server from the client.
 ---@param message NetMessage
@@ -1664,39 +1749,48 @@ function NetworkEvent:InvokeClient(message, client) end
 
 
 
+-------------------------- Signal --------------------------
+
+---@class Signal: Instance
+---@field Invoked VarargEvent
+local Signal = {}
+
+---@vararg any
+function Signal:Invoke(...) end
+
+
+
 -------------------------- BaseValues --------------------------
 
----@class ValueBase: Instance
+---@class ValueBase: Instance This object exists only to serve as a foundation for other objects. It cannot be accessed directly.
+---@field Changed Event Fires when the value of the ValueBase changes.
 local ValueBase = {}
----Fires when the value of the ValueBase changes.
----@type Event
-ValueBase.Changed = nil
 
----@class BoolValue: ValueBase
+---@class BoolValue: ValueBase BoolValue is a ValueBase that stores a boolean.
 ---@field Value boolean The value of this object.
 local BoolValue = {}
 
----@class ColorValue: ValueBase
+---@class ColorValue: ValueBase ColorValue is a ValueBase that stores color.
 ---@field Value Color The value of this object.
 local ColorValue = {}
 
----@class InstanceValue: ValueBase
+---@class InstanceValue: ValueBase InstanceValue is a ValueBase that stores an instance.
 ---@field Value Instance The value of this object.
 local InstanceValue = {}
 
----@class IntValue: ValueBase
+---@class IntValue: ValueBase IntValue is a ValueBase that stores integers.
 ---@field Value number The value of this object.
 local IntValue = {}
 
----@class NumberValue: ValueBase
+---@class NumberValue: ValueBase NumberValue is a ValueBase that stores floats.
 ---@field Value number The value of this object.
 local NumberValue = {}
 
----@class StringValue: ValueBase
+---@class StringValue: ValueBase StringValue is a ValueBase that stores strings.
 ---@field Value string The value of this object.
 local StringValue = {}
 
----@class Vector3Value: ValueBase
+---@class Vector3Value: ValueBase Vector3Value is a ValueBase that stores Vector3.
 ---@field Value Vector3 The value of this object.
 local Vector3Value = {}
 
@@ -1704,12 +1798,12 @@ local Vector3Value = {}
 
 -------------------------- GUIs --------------------------
 
----@class PlayerGui
+---@class PlayerGui PlayerGUI is a class that contains all custom GUIs.
 ---@field Interactable boolean Whether or not the player can interact with the GUI.
 ---@field Opacity number The opacity of the player's GUI.
 local PlayerGui = {}
 
----@class GUI
+---@class GUI GUI is a class that is used to create a GUI.
 ---@field Visible boolean Determines whether the GUI is visible or not.
 local GUI = {}
 
@@ -1717,7 +1811,7 @@ local GUI = {}
 
 -------------------------- UIField --------------------------
 
----@class UIField: Instance
+---@class UIField: Instance UIField is the base class of all UI classes.
 ---@field PivotPoint Vector2 The pivot point of the UI element.
 ---@field PositionOffset Vector2 The offset of the UI element in pixels.
 ---@field PositionRelative Vector2 The position of the UI element relative to its parent.
@@ -1726,32 +1820,25 @@ local GUI = {}
 ---@field SizeRelative Vector2 The size of the UI element relative to its parent.
 ---@field Visible boolean Determines whether the UI element is visible or not.
 ---@field ClipDescendants boolean Determines whether the UI element clips its descendants.
+---@field MouseDown Event Fires when the mouse is clicked
+---@field MouseUp Event Fires when the mouse is released
 local UIField = {}
-
----Fires when the mouse is clicked
----@type Event
-UIField.MouseDown = nil
-
----Fires when the mouse is released
----@type Event
-UIField.MouseUp = nil
 
 
 
 -------------------------- UIView --------------------------
 
----@class UIView: UIField
+---@class UIView: UIField UIView is a class that displays a rectangle in your place's UI.
 ---@field BorderColor ColorValue Determines the border color of the UI.
 ---@field BorderWidth number Determines the border width of the UI.
 ---@field Color Color Determines the color of the UI.
 ---@field CornerRadius number Determines the corner radius of the UI.
-local UIView = {}
 
 
 
 -------------------------- UILabel --------------------------
 
----@class UILabel: UIView
+---@class UILabel: UIView UILabel is a label that can be used to display text.
 ---@field AutoSize boolean Whether the text should be automatically sized to fit the label's size.
 ---@field Font TextFontPreset The font of the label.
 ---@field FontSize number The font size of the label.
@@ -1760,25 +1847,21 @@ local UIView = {}
 ---@field Text string The text of the label.
 ---@field TextColor Color The color of the text.
 ---@field VerticalAlign VerticalAlignment The vertical alignment of the text.
-local UILabel = {}
 
 
 
 -------------------------- UIButton --------------------------
 
----@class UIButton: UILabel
+---@class UIButton: UILabel UIButton is a class used for having interactable buttons in your place's UI.
 ---@field Interactable boolean Determines whether or not the player can click on the button and if the `.Clicked` event will be fired.
+---@field Clicked Event Fires when the UIButton is clicked
 local UIButton = {}
-
----Fires when the UIButton is clicked
----@type Event
-UIButton.Clicked = nil
 
 
 
 -------------------------- UIHVLayout --------------------------
 
----@class UIHVLayout: UIField
+---@class UIHVLayout: UIField UIHVLayout is the base class of all UI layout elements.
 ---@field ChildAlignment TextAnchor Specifies the alignment of the child.
 ---@field ChildControlHeight boolean Specifies the height of the child control.
 ---@field ChildControlWidth boolean Specifies the width of the child control.
@@ -1792,30 +1875,26 @@ UIButton.Clicked = nil
 ---@field PaddingTop number Specifies the top padding of the UIHVLayout.
 ---@field ReverseAlignment boolean Specifies if the alignment is reversed.
 ---@field Spacing number Specifies the spacing between child.
-local UIHVLayout = {}
 
----@class UIHorizontalLayout: UIHVLayout
-local UIHorizontalLayout = {}
----@class UIVerticalLayout: UIHVLayout
-local UIVerticalLayout = {}
+---@class UIHorizontalLayout: UIHVLayout UIHorizontalLayout is a class that aligns all of it's children horizontally.
+---@class UIVerticalLayout: UIHVLayout UIVerticalLayout is a class that aligns all of its children vertically.
 
 
 
 -------------------------- UIImage --------------------------
 
----@class UIImage: UIField
+---@class UIImage: UIField UIImage is a class for displaying images in your place's UI.
 ---@field Color Color Specifies the color of the image.
 ---@field ImageID string Specifies the image ID of the UIImage.
 ---@field ImageType ImageType Undocumented
 ---@field Loading boolean Returns whether or not the image is loading.
 ---@field Clickable boolean Determines whether the image is clickable.
-local UIImage = {}
 
 
 
 -------------------------- UITextInput --------------------------
 
----@class UITextInput: UIField
+---@class UITextInput: UIField UITextInput is a class that allows the user to enter text.
 ---@field AutoSize boolean Whether the text should be automatically sized to fit the label's size.
 ---@field Font TextFontPreset The font of the label.
 ---@field FontSize number The font size of the label.
@@ -1828,15 +1907,9 @@ local UIImage = {}
 ---@field Text stringlib The text of the label.
 ---@field TextColor Color The color of the text.
 ---@field VerticalAlign VerticalAlignment The vertical alignment of the text.
+---@field Changed Event An event that is fired when the value of the text input changes.
+---@field Submitted Event The event that is triggered when the user submits the text in a text input.
 local UITextInput = {}
-
----An event that is fired when the value of the text input changes.
----@type Event
-UITextInput.Changed = nil
-
----The event that is triggered when the user submits the text in a text input.
----@type Event
-UITextInput.Submitted = nil
 
 ---Forces the local player to focus on the text input.
 function UITextInput:Focus() end
@@ -1845,8 +1918,9 @@ function UITextInput:Focus() end
 
 -------------------------- KeyPress --------------------------
 
----@class KeyPressEvent: Event
+---@class KeyPressEvent: Event 
 local KeyPressEvent = {}
+
 ---@param callback fun(key: string)
 function KeyPressEvent:Connect(callback) end
 
@@ -1854,7 +1928,7 @@ function KeyPressEvent:Connect(callback) end
 
 -------------------------- Static classes --------------------------
 
----@class Achievements
+---@class Achievements Achievements is a static class, that is used to award place achievements to a player.
 local Achievements = {}
 
 ---Awards the specified player the specified achievement.
@@ -1869,7 +1943,7 @@ function Achievements:Award(playerUserID, achievementID, callback) end
 ---@param callback fun(success: boolean, error: string)
 function Achievements:HasAchievement(playerUserID, achievementID, callback) end
 
----@class Chat
+---@class Chat Chat is a static class used for various actions regarding the chat.
 local Chat = {}
 
 ---Sends a chat message to all users.
@@ -1882,7 +1956,7 @@ function Chat:BroadcastMessage(message) end
 function Chat:UnicastMessage(message, player) end
 
 
----@class CoreUI
+---@class CoreUI CoreUI is a static class that allows for the toggling of certain core GUI.
 ---@field ChatEnabled boolean Determines whether or not the chat box is visible.
 ---@field CanRespawn boolean Determines whether or not the player can respawn.
 ---@field MenuButtonEnabled boolean Determines whether or not the menu button is visible.
@@ -1892,13 +1966,10 @@ function Chat:UnicastMessage(message, player) end
 ---@field HotbarEnabled boolean Determines whether or not the hot bar is visible.
 local CoreUI = {}
 
----@class Datastore
+---@class Datastore Datastore (not to be confused with the Datastore data type) is a service used for storing data between place sessions.
 ---@field Loading boolean Returns true or false depending on if the Datastore object is loaded.
+---@field Loaded Event Fires when the Datastore object loads.
 local Datastore = {}
-
----Fires when the Datastore object loads.
----@type Event
-Datastore.Loaded = nil
 
 ---Attempts to get a Datastore object from the Datastore service.
 ---@param datastoreName string
@@ -1922,7 +1993,7 @@ function Datastore:Remove(key, callback) end
 function Datastore:Set(key, value, callback) end
 
 
----@class Http
+---@class Http Http is a static class used for HTTP communications and requests.
 local Http = {}
 
 ---Sends a GET request to the specified URL.
@@ -1954,7 +2025,7 @@ function Http:Delete(url, parameters, callback, headers) end
 
 
 
----@class Input
+---@class Input Input is a class used for retrieving user input data, such as the mouse and keyboard.
 ---@field AnyKey boolean Returns `true` if any key is being pressed.
 ---@field AnyKeyDown boolean Returns `true` if any new key presses happened during the current frame. Held down key presses from previous frames do not count.
 ---@field IsInputFocused boolean Determines whether or not the local player is currently focused on an input.
@@ -1963,16 +2034,9 @@ function Http:Delete(url, parameters, callback, headers) end
 ---@field CursorVisible boolean Determines whether or not the cursor is visible.
 ---@field ScreenWidth number Returns the current screen's width.
 ---@field ScreenHeight number Returns the current screen's height.
+---@field KeyDown KeyPressEvent Fires when a key is pressed.
+---@field KeyUp KeyPressEvent Fires when a key is released.
 local Input = {}
-
----Fires when a key is pressed.
----@type KeyPressEvent
-Input.KeyDown = nil
-
----Fires when a key is released.
----@type KeyPressEvent
-Input.KeyUp = nil
-
 
 
 
@@ -2017,17 +2081,17 @@ function Input:GetKeyDown(keyName) end
 function Input:GetKeyUp(keyName) end
 
 ---Returns `true` if the specified mouse button is being held down.
----@param keyName string
+---@param mouseButton string
 ---@return boolean
 function Input:GetMouseButton(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was pressed.
----@param keyName string
+---@param mouseButton string
 ---@return boolean
 function Input:GetMouseButtonDown(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was released.
----@param keyName string
+---@param mouseButton string
 ---@return boolean
 function Input:GetMouseButtonUp(mouseButton) end
 
@@ -2078,7 +2142,7 @@ function Input:WorldToScreenPoint(worldPosition) end
 function Input:WorldToViewportPoint(worldPosition) end
 
 
----@class Insert
+---@class Insert Insert is a class used for inserting user-generated models into your game via scripts.
 local Insert = {}
 
 ---Inserts the specified model ID into your game, with an optional callback for when the model successfully loads.
@@ -2087,7 +2151,7 @@ local Insert = {}
 function Insert:Model(modelID, callback) end
 
 
----@class json
+---@class json json is a module which allows for scripts to interface with JSON data representation by converting it to a table and vice versa.
 local json = {}
 
 ---Returns true if the value specified is a null read from a json string
@@ -2110,9 +2174,9 @@ function json:parse(jsonString) end
 function json:serialize(array) end
 
 
----@class Tween
-local Tween = {}
 
+---@class Tween Tween is a static class used for tweening properties of instances, such as Position, Rotation and Size.
+local Tween = {}
 
 ---Tweens a color between two specified values.
 ---@param startValue Color
@@ -2191,7 +2255,7 @@ function Tween:Cancel(tweenID) end
 
 _G.game = game
 _G.script = BaseScript
-_G.Instance = Instance
+_G.Instance = _Instance
 
 _G.AmbientSource = AmbientSource
 _G.CameraMode = CameraMode
@@ -2211,6 +2275,7 @@ _G.TextJustify = TextJustify
 _G.TextVerticalAlign = TextVerticalAlign
 _G.TweenType = TweenType
 _G.VerticalAlignment = VerticalAlignment
+_G.TextAnchor = TextAnchor
 
 _G.Achievements = Achievements
 _G.Chat = Chat
@@ -2222,9 +2287,9 @@ _G.Insert = Insert
 _G.json = json
 _G.Tween =  Tween
 
-_G.Color = Color
-_G.ColorRange = ColorRange
-_G.NetMessage = NetMessage
-_G.NumberRange = NumberRange
-_G.Vector2 = Vector2
-_G.Vector3 = Vector3
+_G.Color = _Color
+_G.ColorRange = _ColorRange
+_G.NetMessage = _NetMessage
+_G.NumberRange = _NumberRange
+_G.Vector2 = _Vector2
+_G.Vector3 = _Vector3
