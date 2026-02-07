@@ -724,6 +724,7 @@ local _Instance = {}
 ---@overload fun(typeOfInstance: "LocalScript"): LocalScript
 ---@overload fun(typeOfInstance: "ModuleScript"): ModuleScript
 ---@overload fun(typeOfInstance: "NetworkEvent"): NetworkEvent
+---@overload fun(typeOfInstance: "Signal"): Signal
 ---@overload fun(typeOfInstance: "BoolValue"): BoolValue
 ---@overload fun(typeOfInstance: "ColorValue"): ColorValue
 ---@overload fun(typeOfInstance: "InstanceValue"): InstanceValue
