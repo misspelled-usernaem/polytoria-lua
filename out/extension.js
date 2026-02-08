@@ -41,9 +41,22 @@ function activate(context) {
     const apiPath = path.join(context.extensionPath, "api");
     const config = vscode.workspace.getConfiguration("Lua");
     const currentLibrary = config.get("workspace.library") ?? [];
-    if (!currentLibrary.includes(apiPath)) {
-        config.update("workspace.library", [...currentLibrary, apiPath], vscode.ConfigurationTarget.Global);
+    function extractVersionFromPath(filePath) {
+        const regex = /pawz\.polytoria\-lua\-(\d+\.\d+\.\d+)/;
+        const match = filePath.match(regex);
+        return match ? match[1] : null;
     }
+    const currentVersion = extractVersionFromPath(context.extensionPath);
+    const updatedLibrary = currentLibrary.filter((libraryPath) => {
+        const version = extractVersionFromPath(libraryPath);
+        if (!version)
+            return true;
+        return version === currentVersion;
+    });
+    if (!updatedLibrary.includes(apiPath)) {
+        updatedLibrary.push(apiPath);
+    }
+    config.update("workspace.library", updatedLibrary, vscode.ConfigurationTarget.Global);
 }
 function deactivate() { }
 //# sourceMappingURL=extension.js.map

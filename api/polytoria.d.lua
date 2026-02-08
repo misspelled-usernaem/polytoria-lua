@@ -1172,7 +1172,7 @@ function ChattedEvent:Connect(callback) end
 
 -------------------------- Player --------------------------
 
----@class Player: Instance Player is the class of the player and it's character controlled by it's player.
+---@class Player: DynamicInstance Player is the class of the player and it's character controlled by it's player.
 ---@field Anchored boolean Determines whether or not the player is anchored. The idle animation still plays and this property does not reset on respawn/reset.
 ---@field CanMove boolean Determines whether or not the player can move.
 ---@field ChatColor Color The player's username color in the chat.
