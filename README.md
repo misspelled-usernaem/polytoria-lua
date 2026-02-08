@@ -25,9 +25,7 @@ Make sure you download [Lua by sumneko](https://marketplace.visualstudio.com/ite
 
 ## Release Notes
 
-### 1.0.0
-
-Initial release
+See: [change log](https://github.com/misspelled-usernaem/polytoria-lua/blob/main/CHANGELOG.md)
 
 ## Disclaimer
 
