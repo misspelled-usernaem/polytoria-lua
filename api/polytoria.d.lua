@@ -1200,6 +1200,7 @@ function ChattedEvent:Connect(callback) end
 ---@field TorsoColor Color Specifies the color of the players's torso.
 ---@field UserID number Returns the player's user ID.
 ---@field WalkSpeed number Determines how fast the player walks.
+---@field Velocity Vector3 Returns or sets the velocity of the player.
 ---@field ["Backpack"] Backpack
 ---@field Died Event Fires when the player dies.
 ---@field Respawned Event Fires when the player respawns.
@@ -2067,32 +2068,32 @@ function Input:GetButtonDown(buttonName) end
 function Input:GetButtonUp(buttonName) end
 
 ---Returns `true` if the specified key is being held down.
----@param keyName string
+---@param keyName number
 ---@return boolean
 function Input:GetKey(keyName) end
 
 ---Returns `true` during the frame in which the specified key was pressed.
----@param keyName string
+---@param keyName number
 ---@return boolean
 function Input:GetKeyDown(keyName) end
 
 ---Returns `true` during the frame in which the specified key was released.
----@param keyName string
+---@param keyName number
 ---@return boolean
 function Input:GetKeyUp(keyName) end
 
 ---Returns `true` if the specified mouse button is being held down.
----@param mouseButton string
+---@param mouseButton number
 ---@return boolean
 function Input:GetMouseButton(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was pressed.
----@param mouseButton string
+---@param mouseButton number
 ---@return boolean
 function Input:GetMouseButtonDown(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was released.
----@param mouseButton string
+---@param mouseButton number
 ---@return boolean
 function Input:GetMouseButtonUp(mouseButton) end
 

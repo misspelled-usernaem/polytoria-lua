@@ -1,11 +1,13 @@
 ## Features
 
 Most basic features work. The definition file can’t read your Polytoria workspace, so instances accessed via direct indexing must be cast manually.
+
 Example
 ```lua
 local baseplate = game["Environment"]["Baseplate"]
 ---@cast baseplate Part
 ```
+
 * Class-Aware Constructors
 * Typed Query Functions
 ```lua
@@ -33,4 +35,3 @@ This project is not affiliated with, endorsed by, or officially supported by Pol
 It is a community-made project created to improve the development experience and is provided as-is.
 
 This is my first ever extension so it might not be top-tier quality wise :p
-
