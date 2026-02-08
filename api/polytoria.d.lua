@@ -443,7 +443,7 @@ local _Vector2 ={}
 ---@field y number The Y component of the vector.
 ---@field magnitude number The length of this vector.
 ---@field sqrMagnitude number The squared length of this vector.
----@field normalized number Returns this vector with a magnitude of 1.
+---@field normalized Vector2 Returns this vector with a magnitude of 1.
 
 ---Creates a new Vector2.
 ---@overload fun(): Vector2
@@ -470,7 +470,7 @@ local _Vector3 = {}
 ---@field z number The Z component of the vector.
 ---@field magnitude number The length of this vector.
 ---@field sqrMagnitude number The squared length of this vector.
----@field normalized number Returns this vector with a magnitude of 1.
+---@field normalized Vector3 Returns this vector with a magnitude of 1.
 
 ---Creates a new Vector.
 ---@return Vector3
@@ -2102,14 +2102,14 @@ function Input:GetMouseButtonUp(mouseButton) end
 function Input:GetMouseWorldPosition() end
 
 ---Cast a ray from the camera at screen point into the game world
----@param position Vector3
----@param ignoreList Instance[]
+---@param position Vector2
+---@param ignoreList? Instance[]
 ---@return RayResult
 function Input:ScreenPointToRay(position, ignoreList) end
 
 ---Cast a ray from the camera at the specified ViewportPoint (Vector3 with components with values in range of 0 - 1 describing how far a point is to to right and to the top of the screen) into the game world
----@param position Vector3
----@param ignoreList Instance[]
+---@param position Vector2
+---@param ignoreList? Instance[]
 ---@return RayResult
 function Input:ViewportPointToRay(position, ignoreList) end
 
@@ -2184,9 +2184,9 @@ local Tween = {}
 ---@param startValue Color
 ---@param endValue Color
 ---@param time number
----@param callPerStep fun(value: Color)
+---@param callPerStep fun(color: Color)
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenColor(startValue, endValue, time, callPerStep, type, callback) end
 
@@ -2194,9 +2194,9 @@ function Tween:TweenColor(startValue, endValue, time, callPerStep, type, callbac
 ---@param startValue number
 ---@param endValue number
 ---@param time number
----@param callPerStep fun(value: number)
+---@param callPerStep fun(number: number)
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenNumber(startValue, endValue, time, callPerStep, type, callback) end
 
@@ -2205,7 +2205,7 @@ function Tween:TweenNumber(startValue, endValue, time, callPerStep, type, callba
 ---@param endValue Vector3
 ---@param time number
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenPosition(startValue, endValue, time, type, callback) end
 
@@ -2214,7 +2214,7 @@ function Tween:TweenPosition(startValue, endValue, time, type, callback) end
 ---@param endValue Vector3
 ---@param time number
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenRotation(startValue, endValue, time, type, callback) end
 
@@ -2223,7 +2223,7 @@ function Tween:TweenRotation(startValue, endValue, time, type, callback) end
 ---@param endValue Vector3
 ---@param time number
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenSize(startValue, endValue, time, type, callback) end
 
@@ -2231,9 +2231,9 @@ function Tween:TweenSize(startValue, endValue, time, type, callback) end
 ---@param startValue Vector2
 ---@param endValue Vector2
 ---@param time number
----@param callPerStep fun(value: Vector2)
+---@param callPerStep fun(vector: Vector2)
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenVector2(startValue, endValue, time, callPerStep, type, callback) end
 
@@ -2241,9 +2241,9 @@ function Tween:TweenVector2(startValue, endValue, time, callPerStep, type, callb
 ---@param startValue Vector3
 ---@param endValue Vector3
 ---@param time number
----@param callPerStep fun(value: Vector3)
+---@param callPerStep fun(vector: Vector3)
 ---@param type TweenType
----@param callback fun()
+---@param callback? fun()
 ---@return number tweenID
 function Tween:TweenVector3(startValue, endValue, time, callPerStep, type, callback) end
 
