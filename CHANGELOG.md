@@ -34,4 +34,4 @@
 
 ## [1.1.2]
 
-- Made compatible with and released on Code OSS
+- Made compatible with and released on [OpenVSX](https://open-vsx.org/extension/Pawz/polytoria-lua) for Code OSS
