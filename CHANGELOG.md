@@ -22,3 +22,8 @@
 - Fixed `Vector3.normalized` and `Vector2.normalized` return type being `number`
 - Fixed all of the `Tween` methods having non optional callbacks
 - Changed the `callPerStep` parameters of all `Tween` methods from `value` to better represent their respective types
+
+## [1.1.0]
+
+- Added Polytoria specific globals being `wait`, `spawn`, `tick` and `noise`
+- Oopsies uploaded this as version 1.0.5 :P this will be fixed in the next update.
