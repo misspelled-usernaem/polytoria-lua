@@ -31,3 +31,7 @@
 ## [1.1.1]
 
 - Fixed static classes using semicolons rather than dots. Should've included this in 1.1.0 but didn't think enough about it. [Thanks kname2](https://github.com/misspelled-usernaem/polytoria-lua/issues/2)
+
+## [1.1.2]
+
+- Made compatible with and released on Code OSS

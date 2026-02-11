@@ -8,9 +8,9 @@
 
   "icon": "images/Icon.png",
 
-  "version": "1.1.1",
+  "version": "1.1.2",
   "engines": {
-    "vscode": "^1.108.0"
+    "vscode": "^1.107.0"
   },
   "categories": [
     "Programming Languages"
@@ -29,7 +29,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.108.0",
+    "@types/vscode": "^1.107.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.54.0",
