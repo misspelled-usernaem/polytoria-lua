@@ -2253,7 +2253,30 @@ function Tween:Cancel(tweenID) end
 
 
 
+---Yields the current thread until the specified amount of time in seconds have elapsed, (I don't know about throttling).
+---@param seconds number
+function wait(seconds) end
 
+---Returns a Perlin noise value.
+---@param x number
+---@param y? number
+---@param z? number
+function noise (x, y, z) end
+
+---Calls a function immediately without yielding the current thread.
+---@param func function
+function spawn(func) end
+
+---Returns the amount of time in seconds since the Unix epoch.
+---@return number
+function tick() end
+
+
+
+_G.wait = wait
+_G.noise = noise
+_G.spawn = spawn
+_G.tick = tick
 
 _G.game = game
 _G.script = BaseScript
