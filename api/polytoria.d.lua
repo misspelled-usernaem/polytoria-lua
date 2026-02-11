@@ -1937,25 +1937,25 @@ local Achievements = {}
 ---@param playerUserID number
 ---@param achievementID number
 ---@param callback fun(success: boolean, error: string)
-function Achievements:Award(playerUserID, achievementID, callback) end
+function Achievements.Award(playerUserID, achievementID, callback) end
 
 ---Check if the specified player has the specified achievement.
 ---@param playerUserID number
 ---@param achievementID number
 ---@param callback fun(success: boolean, error: string)
-function Achievements:HasAchievement(playerUserID, achievementID, callback) end
+function Achievements.HasAchievement(playerUserID, achievementID, callback) end
 
 ---@class Chat Chat is a static class used for various actions regarding the chat.
 local Chat = {}
 
 ---Sends a chat message to all users.
 ---@param message string
-function Chat:BroadcastMessage(message) end
+function Chat.BroadcastMessage(message) end
 
 ---Sends a chat message to a specific user.
 ---@param message string
 ---@param player Player
-function Chat:UnicastMessage(message, player) end
+function Chat.UnicastMessage(message, player) end
 
 
 ---@class CoreUI CoreUI is a static class that allows for the toggling of certain core GUI.
@@ -1976,23 +1976,23 @@ local Datastore = {}
 ---Attempts to get a Datastore object from the Datastore service.
 ---@param datastoreName string
 ---@return Datastore datastoreObject
-function Datastore:GetDatastore(datastoreName) end
+function Datastore.GetDatastore(datastoreName) end
 
 ---Attempts to get the value of a key from a Datastore.
 ---@param key string
 ---@param callback fun(value: any, success: boolean, error: string)
-function Datastore:Get(key, callback) end
+function Datastore.Get(key, callback) end
 
 ---Attempts to remove a key from a Datastore.
 ---@param key string
 ---@param callback fun(success: boolean, error: string)
-function Datastore:Remove(key, callback) end
+function Datastore.Remove(key, callback) end
 
 ---Attempts to set the value of a key in a Datastore
 ---@param key string
 ---@param value any
 ---@param callback fun(success: boolean, error: string)
-function Datastore:Set(key, value, callback) end
+function Datastore.Set(key, value, callback) end
 
 
 ---@class Http Http is a static class used for HTTP communications and requests.
@@ -2002,28 +2002,28 @@ local Http = {}
 ---@param url string
 ---@param callback fun(data: string, error: boolean, errormsg: string)
 ---@param headers string[]
-function Http:Get(url, callback, headers) end
+function Http.Get(url, callback, headers) end
 
 ---Sends a POST request to the specified URL.
 ---@param url string
 ---@param parameters string
 ---@param callback fun(data: string, error: boolean, errormsg: string)
 ---@param headers string[]
-function Http:Post(url, parameters, callback, headers) end
+function Http.Post(url, parameters, callback, headers) end
 
 ---Sends a PUT request to the specified URL.
 ---@param url string
 ---@param parameters string
 ---@param callback fun(data: string, error: boolean, errormsg: string)
 ---@param headers string[]
-function Http:Put(url, parameters, callback, headers) end
+function Http.Put(url, parameters, callback, headers) end
 
 ---Sends a DELETE request to the specified URL.
 ---@param url string
 ---@param parameters string
 ---@param callback fun(data: string, error: boolean, errormsg: string)
 ---@param headers string[]
-function Http:Delete(url, parameters, callback, headers) end
+function Http.Delete(url, parameters, callback, headers) end
 
 
 
@@ -2045,103 +2045,103 @@ local Input = {}
 ---Returns the value of the specified axis.
 ---@param axisName string
 ---@return number
-function Input:GetAxis(axisName) end
+function Input.GetAxis(axisName) end
 
 ---Returns the value of the specified axis without smoothing filtering.
 ---@param axisName string
 ---@return number
-function Input:GetAxisRaw(axisName) end
+function Input.GetAxisRaw(axisName) end
 
 ---Returns `true` if the specified button is being held down.
 ---@param buttonName string
 ---@return boolean
-function Input:GetButton(buttonName) end
+function Input.GetButton(buttonName) end
 
 ---Returns `true` during the frame in which the specified button was pressed.
 ---@param buttonName string
 ---@return boolean
-function Input:GetButtonDown(buttonName) end
+function Input.GetButtonDown(buttonName) end
 
 ---Returns `true` during the frame in which the specified button was released.
 ---@param buttonName string
 ---@return boolean
-function Input:GetButtonUp(buttonName) end
+function Input.GetButtonUp(buttonName) end
 
 ---Returns `true` if the specified key is being held down.
 ---@param keyName number
 ---@return boolean
-function Input:GetKey(keyName) end
+function Input.GetKey(keyName) end
 
 ---Returns `true` during the frame in which the specified key was pressed.
 ---@param keyName number
 ---@return boolean
-function Input:GetKeyDown(keyName) end
+function Input.GetKeyDown(keyName) end
 
 ---Returns `true` during the frame in which the specified key was released.
 ---@param keyName number
 ---@return boolean
-function Input:GetKeyUp(keyName) end
+function Input.GetKeyUp(keyName) end
 
 ---Returns `true` if the specified mouse button is being held down.
 ---@param mouseButton number
 ---@return boolean
-function Input:GetMouseButton(mouseButton) end
+function Input.GetMouseButton(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was pressed.
 ---@param mouseButton number
 ---@return boolean
-function Input:GetMouseButtonDown(mouseButton) end
+function Input.GetMouseButtonDown(mouseButton) end
 
 ---Returns `true` during the frame in which the specified mouse button was released.
 ---@param mouseButton number
 ---@return boolean
-function Input:GetMouseButtonUp(mouseButton) end
+function Input.GetMouseButtonUp(mouseButton) end
 
 ---Returns the 3D world-space position corresponding to the current mouse cursor location.
 ---@return Vector3
-function Input:GetMouseWorldPosition() end
+function Input.GetMouseWorldPosition() end
 
 ---Cast a ray from the camera at screen point into the game world
 ---@param position Vector2
 ---@param ignoreList? Instance[]
 ---@return RayResult
-function Input:ScreenPointToRay(position, ignoreList) end
+function Input.ScreenPointToRay(position, ignoreList) end
 
 ---Cast a ray from the camera at the specified ViewportPoint (Vector3 with components with values in range of 0 - 1 describing how far a point is to to right and to the top of the screen) into the game world
 ---@param position Vector2
 ---@param ignoreList? Instance[]
 ---@return RayResult
-function Input:ViewportPointToRay(position, ignoreList) end
+function Input.ViewportPointToRay(position, ignoreList) end
 
 ---Transforms `screenPosition` parameter from screen space into viewport space.
 ---@param screenPosition Vector2
 ---@return Vector3
-function Input:ScreenToViewportPoint(screenPosition) end
+function Input.ScreenToViewportPoint(screenPosition) end
 
 ---Transforms `screenPosition` from screen space into world space.
 ---@param screenPosition Vector2
 ---@return Vector3
-function Input:ScreenToWorldPoint(screenPosition) end
+function Input.ScreenToWorldPoint(screenPosition) end
 
 ---Transforms `viewportPosition` from viewport space into screen space.
 ---@param viewportPosition Vector2
 ---@return Vector3
-function Input:ViewportToScreenPoint(viewportPosition) end
+function Input.ViewportToScreenPoint(viewportPosition) end
 
 ---Transforms `viewportPosition` from viewport space into world space.
 ---@param viewportPosition Vector2
 ---@return Vector3
-function Input:ViewportToWorldPoint(viewportPosition) end
+function Input.ViewportToWorldPoint(viewportPosition) end
 
 ---Transforms `worldPosition` from world space into screen space.
 ---@param worldPosition Vector3
 ---@return Vector3
-function Input:WorldToScreenPoint(worldPosition) end
+function Input.WorldToScreenPoint(worldPosition) end
 
 ---Transforms `worldPosition` from world space into viewport space.
 ---@param worldPosition Vector3
 ---@return Vector3
-function Input:WorldToViewportPoint(worldPosition) end
+function Input.WorldToViewportPoint(worldPosition) end
 
 
 ---@class Insert Insert is a class used for inserting user-generated models into your game via scripts.
@@ -2150,7 +2150,7 @@ local Insert = {}
 ---Inserts the specified model ID into your game, with an optional callback for when the model successfully loads.
 ---@param modelID number
 ---@param callback? fun(...)
-function Insert:Model(modelID, callback) end
+function Insert.Model(modelID, callback) end
 
 
 ---@class json json is a module which allows for scripts to interface with JSON data representation by converting it to a table and vice versa.
@@ -2159,21 +2159,21 @@ local json = {}
 ---Returns true if the value specified is a null read from a json string
 ---@param jsonString string
 ---@return boolean isNull
-function json:isNull(jsonString) end
+function json.isNull(jsonString) end
 
 ---Returns a special value which is a representation of a null in a json
 ---@return string null
-function json:null() end
+function json.null() end
 
 ---Returns a table with the contents of the specified JSON string
 ---@param jsonString string
 ---@return {} table
-function json:parse(jsonString) end
+function json.parse(jsonString) end
 
 ---Returns a json string with the contents of the specified table.
 ---@param array {}
 ---@return string jsonString
-function json:serialize(array) end
+function json.serialize(array) end
 
 
 
@@ -2188,7 +2188,7 @@ local Tween = {}
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenColor(startValue, endValue, time, callPerStep, type, callback) end
+function Tween.TweenColor(startValue, endValue, time, callPerStep, type, callback) end
 
 ---Tweens a number between two specified values.
 ---@param startValue number
@@ -2198,7 +2198,7 @@ function Tween:TweenColor(startValue, endValue, time, callPerStep, type, callbac
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenNumber(startValue, endValue, time, callPerStep, type, callback) end
+function Tween.TweenNumber(startValue, endValue, time, callPerStep, type, callback) end
 
 ---Tweens the position of a DynamicInstance
 ---@param startValue DynamicInstance
@@ -2207,7 +2207,7 @@ function Tween:TweenNumber(startValue, endValue, time, callPerStep, type, callba
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenPosition(startValue, endValue, time, type, callback) end
+function Tween.TweenPosition(startValue, endValue, time, type, callback) end
 
 ---Tweens the rotation of a DynamicInstance
 ---@param startValue DynamicInstance
@@ -2216,7 +2216,7 @@ function Tween:TweenPosition(startValue, endValue, time, type, callback) end
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenRotation(startValue, endValue, time, type, callback) end
+function Tween.TweenRotation(startValue, endValue, time, type, callback) end
 
 ---Tweens the size of a DynamicInstance
 ---@param startValue DynamicInstance
@@ -2225,7 +2225,7 @@ function Tween:TweenRotation(startValue, endValue, time, type, callback) end
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenSize(startValue, endValue, time, type, callback) end
+function Tween.TweenSize(startValue, endValue, time, type, callback) end
 
 ---Tweens a vector2 between two specified values.
 ---@param startValue Vector2
@@ -2235,7 +2235,7 @@ function Tween:TweenSize(startValue, endValue, time, type, callback) end
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenVector2(startValue, endValue, time, callPerStep, type, callback) end
+function Tween.TweenVector2(startValue, endValue, time, callPerStep, type, callback) end
 
 ---Tweens a vector3 between two specified values.
 ---@param startValue Vector3
@@ -2245,11 +2245,11 @@ function Tween:TweenVector2(startValue, endValue, time, callPerStep, type, callb
 ---@param type TweenType
 ---@param callback? fun()
 ---@return number tweenID
-function Tween:TweenVector3(startValue, endValue, time, callPerStep, type, callback) end
+function Tween.TweenVector3(startValue, endValue, time, callPerStep, type, callback) end
 
 ---Cancels an on-going tween based on its `tweenID`.
 ---@param tweenID number
-function Tween:Cancel(tweenID) end
+function Tween.Cancel(tweenID) end
 
 
 

@@ -26,4 +26,8 @@
 ## [1.1.0]
 
 - Added Polytoria specific globals being `wait`, `spawn`, `tick` and `noise`
-- Oopsies uploaded this as version 1.0.5 :P this will be fixed in the next update.
+- Oopsies uploaded this as version 1.0.5 :P this will be fixed in the next update
+
+## [1.1.1]
+
+- Fixed static classes using semicolons rather than dots. Should've included this in 1.1.0 but didn't think enough about it. [Thanks kname2](https://github.com/misspelled-usernaem/polytoria-lua/issues/2)
